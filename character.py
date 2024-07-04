@@ -1,8 +1,18 @@
 import pygame
 from pygame.locals import *
 
+#define
+FPS = 30
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
+tile_size = 50
+
+# init game
+pygame.init()
+font = pygame.font.SysFont('default', 64)
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT),
+                                 pygame.FULLSCREEN)
+fps_clock = pygame.time.Clock()
 
 class Player():
   def __init__(self,x,y):
@@ -19,10 +29,10 @@ class Player():
 
     #keys inklikken
     key = pygame.key.get_pressed()
-    if key[pygame.K_UP] and not self.jump:
+    if key[pygame.K_UP] and self.jump == False:
       self.vel_y = -15
       self.jump = True
-    if not key[pygame.K_UP]:
+    if key[pygame.K_UP] == False:
       self.jump = False
     if key[pygame.K_LEFT]:
       dx -= 5
@@ -44,3 +54,4 @@ class Player():
       dy = 0
 
     screen.blit(self.image, self.rect)
+    pygame.draw.rect(screen, (255, 255, 255), self.rect, 2)
