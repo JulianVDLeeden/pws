@@ -27,7 +27,7 @@ def PLAY():
 
       PLAY_MOUSe_POS = pygame.mouse.get_pos()
 
-      PLAY_BACK = Button(image=none, pos=(640, 460), 
+      PLAY_BACK = Button(image=None, pos=(640, 460), 
       text_imput='black', font=get_font(75), base_color = 'white', hovering_color = 'green' )
       
       PLAY_BACK.changeColor(PLAY_MOUSe_POS)
@@ -43,6 +43,8 @@ def PLAY():
         
       pygame.display.update()
 
+
+
 def credits():
   pygame.display.set_caption('Credits')
   game_status_msg_credits = "Gemaakt door: "
@@ -54,10 +56,8 @@ def credits():
   game_status_img = font.render(game_status_msg_julian, True, 'white')
   
   screen.blit(game_status_msg_credits, (0, 0))
-  screen.blit(game_status_msgniek, (0, 0))
+  screen.blit(game_status_msg_niek, (0, 0))
   screen.blit(game_status_msg_credits, (0, 0))
-
-
 
 def main_menu():
   pygame.display.set_caption('Main_menu')
@@ -67,7 +67,7 @@ def main_menu():
 
     MENU_MOUSE_POS = pygame.mouse.get_pos()
 
-    Menu_TEXT = get_font(100).render('Main Menu', True, '#b68f40')
+    MENU_TEXT = get_font(100).render('Main Menu', True, '#b68f40')
     MENU_RECT = MENU_TEXT.get_rect(center = (640, 100))
 
     PLAY_BUTTON = Button(image=pygame.image.load('Picture/MossyStone.jpg'), 
@@ -79,7 +79,7 @@ def main_menu():
     QUIT_BUTTON = Button(image=pygame.image.load('Picture/MossyStone.jpg'), 
     pos=(640,550), text_imput='QUIT', font=get_font(75), bas_color = '#d7fcd4', hovering_color='white')
 
-    SCREEN.blit(Menu_TEXT, MENU_RECT)
+    SCREEN.blit(MENU_TEXT, MENU_RECT)
     
 
 
