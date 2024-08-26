@@ -11,8 +11,7 @@ tile_size = 40
 # init game
 pygame.init()
 font = pygame.font.SysFont('default', 64)
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT),
-                                 pygame.FULLSCREEN)
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.FULLSCREEN)
 fps_clock = pygame.time.Clock()
 
 class World():
@@ -71,7 +70,6 @@ world_data = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ]
 
-
 world = World(world_data)
 
 class Player_1():
@@ -80,9 +78,9 @@ class Player_1():
     self.image_left = []
     self.index = 0
     self.counter = 0
-    for number in range (1, 3):
+    for number in range (1, 4):
       img_right = pygame.image.load(f'Picture/dwarf{number}.png')
-      img_right = pygame.transform.scale(img_right, (tile_size, tile_size + 10))
+      img_right = pygame.transform.scale(img_right, (tile_size * 2, tile_size * 2+ 10))
       img_left = pygame.transform.flip(img_right, True, False)
       self.image_right.append(img_right)
       self.image_left.append(img_left)
@@ -99,7 +97,7 @@ class Player_1():
   def update(self):
     dx = 0
     dy = 0
-    walk_cooldown = 10
+    walk_cooldown = 5
 
     #keys inklikken
     key = pygame.key.get_pressed()
@@ -165,11 +163,21 @@ class Player_1():
 
     screen.blit(self.image, self.rect)
     pygame.draw.rect(screen, (0, 0, 0), self.rect, 2)
-    
+
+
 class Player_2():
   def __init__(self,x,y):
-    img = pygame.image.load('Picture/dwarf2.png')
-    self.image = pygame.transform.scale(img, (tile_size, tile_size + 10))
+    self.image_right = []
+    self.image_left = []
+    self.index = 0
+    self.counter = 0
+    for number in range (1, 4):
+      img_right = pygame.image.load(f'Picture/elf{number}.png')
+      img_right = pygame.transform.scale(img_right, (tile_size, tile_size + 10))
+      img_left = pygame.transform.flip(img_right, True, False)
+      self.image_right.append(img_right)
+      self.image_left.append(img_left)
+    self.image = self.image_right[self.index]
     self.rect = self.image.get_rect()
     self.rect.x = x
     self.rect.y = y
@@ -177,9 +185,12 @@ class Player_2():
     self.height = self.image.get_height()
     self.vel_y = 0
     self.jump = False
+    self.direction = 0
+
   def update(self):
     dx = 0
     dy = 0
+    walk_cooldown = 5
 
     #keys inklikken
     key = pygame.key.get_pressed()
@@ -190,14 +201,36 @@ class Player_2():
       self.jump = False
     if key[pygame.K_a]:
       dx -= 5
+      self.counter += 1
+      self.direction = -1
     if key[pygame.K_d]:
       dx += 5
+      self.counter += 1
+      self.direction = 1
+    if key[pygame.K_a] == False and key[pygame.K_d] == False:
+      self.counter = 0
+      self.index = 0
+      if self.direction == 1:
+       self.image = self.image_right[self.index]
+      if self.direction == -1:
+       self.image = self.image_left[self.index]
+
+    #animation
+    if self.counter > walk_cooldown:
+      self.counter = 0
+      self.index += 1
+      if self.index >= len(self.image_right):
+        self.index = 0 
+      if self.direction == 1:
+       self.image = self.image_right[self.index]
+      if self.direction == -1:
+       self.image = self.image_left[self.index]
 
     #zwaartekracht
-    dy += self.vel_y
     self.vel_y += 1
     if self.vel_y > 10:
       self.vel_y = 10
+    dy += self.vel_y  
     
     #Kijken of de player ergens tegenaan gaat
     for tile in world.tile_list:
@@ -222,4 +255,5 @@ class Player_2():
       dy = 0
 
     screen.blit(self.image, self.rect)
-    pygame.draw.rect(screen, (0, 0, 0), self.rect, 2)
+    pygame.draw.rect(screen, (0, 0, 0), self.rect, 2) 
+ 
