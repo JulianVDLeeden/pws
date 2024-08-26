@@ -7,7 +7,7 @@ SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
 
 tile_size = 45
-
+.
 # init game
 pygame.init()
 font = pygame.font.SysFont('default', 64)
