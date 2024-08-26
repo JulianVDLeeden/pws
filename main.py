@@ -84,6 +84,8 @@ world = World(world_data)
 run = True
 while run:
     
+    fps_clock.tick(FPS)
+    
     screen.blit(bg_img, (0, 0))
     
     world.draw()
