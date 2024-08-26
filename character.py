@@ -80,7 +80,7 @@ class Player_1():
     self.counter = 0
     for number in range (1, 4):
       img_right = pygame.image.load(f'Picture/dwarf{number}.png')
-      img_right = pygame.transform.scale(img_right, (tile_size * 2, tile_size * 2+ 10))
+      img_right = pygame.transform.scale(img_right, (tile_size * 2, tile_size * 2))
       img_left = pygame.transform.flip(img_right, True, False)
       self.image_right.append(img_right)
       self.image_left.append(img_left)
@@ -173,7 +173,7 @@ class Player_2():
     self.counter = 0
     for number in range (1, 4):
       img_right = pygame.image.load(f'Picture/elf{number}.png')
-      img_right = pygame.transform.scale(img_right, (tile_size, tile_size + 10))
+      img_right = pygame.transform.scale(img_right, (tile_size, tile_size))
       img_left = pygame.transform.flip(img_right, True, False)
       self.image_right.append(img_right)
       self.image_left.append(img_left)
@@ -200,11 +200,11 @@ class Player_2():
     if key[pygame.K_w] == False:
       self.jump = False
     if key[pygame.K_a]:
-      dx -= 5
+      dx -= 10
       self.counter += 1
       self.direction = -1
     if key[pygame.K_d]:
-      dx += 5
+      dx += 10
       self.counter += 1
       self.direction = 1
     if key[pygame.K_a] == False and key[pygame.K_d] == False:
