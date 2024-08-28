@@ -53,7 +53,7 @@ class World():
   def draw(self):
     for tile in self.tile_list:
       screen.blit(tile[0], tile[1])
-      pygame.draw.rect(screen, (255,255,255), tile[1], 2)
+      #pygame.draw.rect(screen, (255,255,255), tile[1], 2)
 
 
 class Spike(pygame.sprite.Sprite):
@@ -92,7 +92,8 @@ world = World(world_data)
 
 class Button():
   def __init__(self, x, y, image):
-    self.image = image
+    image = pygame.image.load('Picture/restart.png')
+    self.image = pygame.transform.scale(image, (tile_size * 7.5, tile_size * 2))
     self.rect = self.image.get_rect()
     self.rect.x = x
     self.rect.y = y
@@ -190,7 +191,7 @@ class Player_1():
       self.rect.y += dy
 
     screen.blit(self.image, self.rect)
-    pygame.draw.rect(screen, (0, 0, 0), self.rect, 2)
+    #pygame.draw.rect(screen, (0, 0, 0), self.rect, 2)
 
     return game_over
   
@@ -202,7 +203,7 @@ class Player_1():
     self.counter = 0
     for number in range (1, 4):
       img_right = pygame.image.load(f'Picture/dwarf{number}.png')
-      img_right = pygame.transform.scale(img_right, (tile_size * 2, tile_size * 2))
+      img_right = pygame.transform.scale(img_right, (tile_size * 1.5, tile_size * 1.5))
       img_left = pygame.transform.flip(img_right, True, False)
       self.image_right.append(img_right)
       self.image_left.append(img_left)
@@ -292,7 +293,7 @@ class Player_2():
       self.rect.y += dy
 
     screen.blit(self.image, self.rect)
-    pygame.draw.rect(screen, (0, 0, 0), self.rect, 2)
+    #pygame.draw.rect(screen, (0, 0, 0), self.rect, 2)
 
     return game_over
   

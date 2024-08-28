@@ -62,7 +62,7 @@ class World():
   def draw(self):
     for tile in self.tile_list:
       screen.blit(tile[0], tile[1])
-      pygame.draw.rect(screen, (255,255,255), tile[1], 2)
+      #pygame.draw.rect(screen, (255,255,255), tile[1], 2)
 
 
 class Spike(pygame.sprite.Sprite):
@@ -76,7 +76,7 @@ class Spike(pygame.sprite.Sprite):
         
   def draw(self):
        spike_group.draw(screen)
-       pygame.draw.rect(screen, (255,255,255), 2)    
+       #pygame.draw.rect(screen, (255,255,255), 2)    
 
 
 
@@ -108,7 +108,7 @@ Player_2 = Player_2(100, SCREEN_HEIGHT - 96)
 
 world = World(world_data)
 
-restart_button = Button(SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2 + 100, restart_img)
+restart_button = Button(SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 2 - 40, restart_img)
 
 run = True
 while run:
