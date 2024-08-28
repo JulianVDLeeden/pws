@@ -77,40 +77,47 @@ world_data = [
 [1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 [1, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 [1, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1],
-[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 1],
-[1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1],
+[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 1, 1, 1],
+[1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
 
 world = World(world_data)
 
-class Player_1():
-  def __init__(self,x,y):
-    self.image_right = []
-    self.image_left = []
-    self.index = 0
-    self.counter = 0
-    for number in range (1, 4):
-      img_right = pygame.image.load(f'Picture/dwarf{number}.png')
-      img_right = pygame.transform.scale(img_right, (tile_size * 2, tile_size * 2))
-      img_left = pygame.transform.flip(img_right, True, False)
-      self.image_right.append(img_right)
-      self.image_left.append(img_left)
-    self.image = self.image_right[self.index]
+class Button():
+  def __init__(self, x, y, image):
+    self.image = image
     self.rect = self.image.get_rect()
     self.rect.x = x
     self.rect.y = y
-    self.width = self.image.get_width()
-    self.height = self.image.get_height()
-    self.vel_y = 0
-    self.jump = False
-    self.direction = 0
+    self.clicked = False
+
+  def draw(self):
+    action = False
+
+    pos = pygame.mouse.get_pos()
+
+    if self.rect.collidepoint(pos):
+      if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
+        action = True
+        self.clicked = True
+    
+    if pygame.mouse.get_pressed()[0] == 0:
+      self.clicked = False
+    
+    screen.blit(self.image, self.rect)
+
+    return action
+
+class Player_1():
+  def __init__(self,x,y):
+    self.reset(x, y)
 
   def update(self, game_over):
     dx = 0
@@ -120,7 +127,7 @@ class Player_1():
     if game_over == 0:
       #keys inklikken
       key = pygame.key.get_pressed()
-      if key[pygame.K_UP] and self.jump == False:
+      if key[pygame.K_UP] and self.jump == False and self.in_air == False:
         self.vel_y = -15
         self.jump = True
       if key[pygame.K_UP] == False:
@@ -159,6 +166,7 @@ class Player_1():
       dy += self.vel_y  
       
       #Kijken of de player ergens tegenaan gaat
+      self.in_air = True
       for tile in world.tile_list:
         #x collision
         if tile[1].colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):
@@ -171,6 +179,7 @@ class Player_1():
           elif self.vel_y >= 0:
             dy = tile[1].top - self.rect.bottom  
             self.vel_y = 0
+            self.in_air = False
 
       #contact met spike
       if pygame.sprite.spritecollide(self, spike_group, False):
@@ -184,6 +193,29 @@ class Player_1():
     pygame.draw.rect(screen, (0, 0, 0), self.rect, 2)
 
     return game_over
+  
+
+  def reset(self, x, y):
+    self.image_right = []
+    self.image_left = []
+    self.index = 0
+    self.counter = 0
+    for number in range (1, 4):
+      img_right = pygame.image.load(f'Picture/dwarf{number}.png')
+      img_right = pygame.transform.scale(img_right, (tile_size * 2, tile_size * 2))
+      img_left = pygame.transform.flip(img_right, True, False)
+      self.image_right.append(img_right)
+      self.image_left.append(img_left)
+    self.image = self.image_right[self.index]
+    self.rect = self.image.get_rect()
+    self.rect.x = x
+    self.rect.y = y
+    self.width = self.image.get_width()
+    self.height = self.image.get_height()
+    self.vel_y = 0
+    self.jump = False
+    self.direction = 0
+    self.in_air = True
 
 
 class Player_2():

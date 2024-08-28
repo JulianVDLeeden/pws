@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 from character import Player_1
 from character import Player_2
+from character import Button
 
 #define
 FPS = 30
@@ -20,6 +21,7 @@ pygame.display.set_caption('Plant Guy')
 
 #load imiage
 bg_img = pygame.image.load('Picture/jungle-background.jpg')
+restart_img = pygame.image.load('Picture/restart.png')
 
 spike_group = pygame.sprite.Group()
 
@@ -64,13 +66,17 @@ class World():
 
 
 class Spike(pygame.sprite.Sprite):
-    def __init__(self, x, y):
-        pygame.sprite.Sprite.__init__(self)
-        img = pygame.image.load('Picture/spike.png')
-        self.image = pygame.transform.scale(img, (tile_size, tile_size))  # Scale the image
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
+  def __init__(self, x, y):
+    pygame.sprite.Sprite.__init__(self)
+    img = pygame.image.load('Picture/spike.png')
+    self.image = pygame.transform.scale(img, (tile_size, tile_size))  # Scale the image
+    self.rect = self.image.get_rect()
+    self.rect.x = x
+    self.rect.y = y
+        
+  def draw(self):
+       spike_group.draw(screen)
+       pygame.draw.rect(screen, (255,255,255), 2)    
 
 
 
@@ -84,13 +90,13 @@ world_data = [
 [1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 [1, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 [1, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1],
-[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 1],
-[1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1],
+[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 1, 1, 1],
+[1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]   
@@ -101,6 +107,8 @@ Player_1 = Player_1(200, SCREEN_HEIGHT - 96)
 Player_2 = Player_2(100, SCREEN_HEIGHT - 96)
 
 world = World(world_data)
+
+restart_button = Button(SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2 + 100, restart_img)
 
 run = True
 while run:
@@ -115,6 +123,11 @@ while run:
 
     game_over = Player_1.update(game_over)
     Player_2.update()
+
+    if game_over == -1:
+       if restart_button.draw():
+          Player_1.reset(200, SCREEN_HEIGHT - 96)
+          game_over = 0
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
