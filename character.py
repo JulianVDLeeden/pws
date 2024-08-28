@@ -220,6 +220,83 @@ class Player_1():
 
 class Player_2():
   def __init__(self,x,y):
+    self.reset(x, y)
+
+  def update(self, game_over):
+    dx = 0
+    dy = 0
+    walk_cooldown = 5
+
+    if game_over == 0:
+      #keys inklikken
+      key = pygame.key.get_pressed()
+      if key[pygame.K_w] and self.jump == False:
+        self.vel_y = -15
+        self.jump = True
+      if key[pygame.K_w] == False:
+        self.jump = False
+      if key[pygame.K_a]:
+        dx -= 10
+        self.counter += 1
+        self.direction = -1
+      if key[pygame.K_d]:
+        dx += 10
+        self.counter += 1
+        self.direction = 1
+      if key[pygame.K_a] == False and key[pygame.K_d] == False:
+        self.counter = 0
+        self.index = 0
+        if self.direction == 1:
+          self.image = self.image_right[self.index]
+        if self.direction == -1:
+          self.image = self.image_left[self.index]
+
+      #animation
+      if self.counter > walk_cooldown:
+        self.counter = 0
+        self.index += 1
+        if self.index >= len(self.image_right):
+          self.index = 0 
+        if self.direction == 1:
+          self.image = self.image_right[self.index]
+        if self.direction == -1:
+          self.image = self.image_left[self.index]
+
+      #zwaartekracht
+      self.vel_y += 1
+      if self.vel_y > 10:
+        self.vel_y = 10
+      dy += self.vel_y  
+      
+      #Kijken of de player ergens tegenaan gaat
+      for tile in world.tile_list:
+        #x collision
+        if tile[1].colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):
+          dx = 0
+        #y collision
+        if tile[1].colliderect(self.rect.x, self.rect.y + dy, self.width, self.height):
+          if self.vel_y < 0:
+            dy = tile[1].bottom - self.rect.top
+            self.vel_y = 0
+          elif self.vel_y >= 0:
+            dy = tile[1].top - self.rect.bottom  
+            self.vel_y = 0
+            
+
+      #contact met spike
+      if pygame.sprite.spritecollide(self, spike_group, False):
+        game_over = -1
+
+      #Player verplaatsen
+      self.rect.x += dx
+      self.rect.y += dy
+
+    screen.blit(self.image, self.rect)
+    pygame.draw.rect(screen, (0, 0, 0), self.rect, 2)
+
+    return game_over
+  
+  def reset(self, x, y):
     self.image_right = []
     self.image_left = []
     self.index = 0
@@ -240,73 +317,7 @@ class Player_2():
     self.jump = False
     self.direction = 0
 
-  def update(self):
-    dx = 0
-    dy = 0
-    walk_cooldown = 5
-
-    #keys inklikken
-    key = pygame.key.get_pressed()
-    if key[pygame.K_w] and self.jump == False:
-      self.vel_y = -15
-      self.jump = True
-    if key[pygame.K_w] == False:
-      self.jump = False
-    if key[pygame.K_a]:
-      dx -= 10
-      self.counter += 1
-      self.direction = -1
-    if key[pygame.K_d]:
-      dx += 10
-      self.counter += 1
-      self.direction = 1
-    if key[pygame.K_a] == False and key[pygame.K_d] == False:
-      self.counter = 0
-      self.index = 0
-      if self.direction == 1:
-       self.image = self.image_right[self.index]
-      if self.direction == -1:
-       self.image = self.image_left[self.index]
-
-    #animation
-    if self.counter > walk_cooldown:
-      self.counter = 0
-      self.index += 1
-      if self.index >= len(self.image_right):
-        self.index = 0 
-      if self.direction == 1:
-       self.image = self.image_right[self.index]
-      if self.direction == -1:
-       self.image = self.image_left[self.index]
-
-    #zwaartekracht
-    self.vel_y += 1
-    if self.vel_y > 10:
-      self.vel_y = 10
-    dy += self.vel_y  
     
-    #Kijken of de player ergens tegenaan gaat
-    for tile in world.tile_list:
-      #x collision
-      if tile[1].colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):
-        dx = 0
-      #y collision
-      if tile[1].colliderect(self.rect.x, self.rect.y + dy, self.width, self.height):
-        if self.vel_y < 0:
-          dy = tile[1].bottom - self.rect.top
-          self.vel_y = 0
-        elif self.vel_y >= 0:
-          dy = tile[1].top - self.rect.bottom  
-          self.vel_y = 0
 
-    #Player verplaatsen
-    self.rect.x += dx
-    self.rect.y += dy
-
-    if self.rect.bottom > SCREEN_HEIGHT:
-      self.rect.bottom = SCREEN_HEIGHT
-      dy = 0
-
-    screen.blit(self.image, self.rect)
-    pygame.draw.rect(screen, (0, 0, 0), self.rect, 2) 
+  
  

@@ -122,11 +122,12 @@ while run:
     spike_group.draw(screen)
 
     game_over = Player_1.update(game_over)
-    Player_2.update()
+    game_over = Player_2.update(game_over)
 
     if game_over == -1:
        if restart_button.draw():
           Player_1.reset(200, SCREEN_HEIGHT - 96)
+          Player_2.reset(100, SCREEN_HEIGHT - 96)
           game_over = 0
 
     for event in pygame.event.get():
