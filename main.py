@@ -22,9 +22,9 @@ pygame.display.set_caption('Plant Guy')
 
 #load imiage
 bg_img = pygame.image.load('Picture/jungle-background.jpg')
-menu_img = pygame.image.load('Picture/bg.jpg')
+menu_bg_img = pygame.image.load('Picture/bg_menu.jpg')
 rest_img = pygame.image.load('Picture/restart.png')
-restart_img = pygame.transform.scale(rest_img, (tile_size * 7.5, tile_size * 2))
+restart_img = pygame.transform.scale(rest_img, (tile_size * 9, tile_size * 3))
 ply_img = pygame.image.load('Picture/play.png')
 play_img = pygame.transform.scale(ply_img, (tile_size * 9, tile_size * 3))
 ext_img = pygame.image.load('Picture/exit.png')
@@ -118,17 +118,17 @@ Player_2 = Player_2(100, SCREEN_HEIGHT - 96)
 
 world = World(world_data)
 
-restart_button = Button(SCREEN_WIDTH / 2 - 180, SCREEN_HEIGHT / 4 - 50, restart_img)
 play_button = Button(SCREEN_WIDTH / 2 - 180, SCREEN_HEIGHT / 4 - 50, play_img)
 exit_button = Button(SCREEN_WIDTH / 2 - 180, SCREEN_HEIGHT / 2 + 110, exit_img)
-menu_button = Button(SCREEN_WIDTH / 2 - 180, SCREEN_HEIGHT / 2 + 110, menu_img)
+restart_button = Button(SCREEN_WIDTH / 4 - 180, SCREEN_HEIGHT / 2 - 60, restart_img)
+menu_button = Button(SCREEN_WIDTH / 2 + 180, SCREEN_HEIGHT / 2 - 60, menu_img)
 
 run = True
 while run:
     
     fps_clock.tick(FPS)
     
-    screen.blit(menu_img, (0, 0))
+    screen.blit(menu_bg_img, (0, 0))
 
     if menu == True:
 
@@ -152,7 +152,7 @@ while run:
 
       if game_over == -1:
         if menu_button.draw():
-           menu == True
+           menu = True
         if restart_button.draw():
             Player_1.reset(200, SCREEN_HEIGHT - 96)
             Player_2.reset(100, SCREEN_HEIGHT - 96)
