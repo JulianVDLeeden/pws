@@ -7,14 +7,35 @@ SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
 
 tile_size = 40
+game_over = 0
+menu = True
+level = 1
 
 # init game
 pygame.init()
 font = pygame.font.SysFont('default', 64)
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.FULLSCREEN)
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), FULLSCREEN)
 fps_clock = pygame.time.Clock()
+pygame.display.set_caption('Plant Guy')
+
+#load imiage
+bg_img = pygame.image.load('Picture/jungle-background.jpg')
+menu_bg_img = pygame.image.load('Picture/bg_menu.jpg')
+rest_img = pygame.image.load('Picture/restart.png')
+restart_img = pygame.transform.scale(rest_img, (tile_size * 9, tile_size * 3))
+ply_img = pygame.image.load('Picture/play.png')
+play_img = pygame.transform.scale(ply_img, (tile_size * 9, tile_size * 3))
+ext_img = pygame.image.load('Picture/exit.png')
+exit_img = pygame.transform.scale(ext_img, (tile_size * 9, tile_size * 3))
+mnu_img = pygame.image.load('Picture/menu.png')
+menu_img = pygame.transform.scale(mnu_img, (tile_size * 9, tile_size * 3))
+game_ovr_img = pygame.image.load('Picture/game_over.jpg')
+game_over_img = pygame.transform.scale(game_ovr_img, (SCREEN_WIDTH, SCREEN_HEIGHT))
+
 
 spike_group = pygame.sprite.Group()
+finish_group = pygame.sprite.Group()
+finish2_group = pygame.sprite.Group()
 
 class World():
 
@@ -46,6 +67,12 @@ class World():
         elif tile == 3:
           spike = Spike(col_count * tile_size, row_count * tile_size)
           spike_group.add(spike)
+        elif tile == 4:
+          finish = Finish(col_count * tile_size, row_count * tile_size)
+          finish_group.add(finish)
+        elif tile == 5:
+          finish2 = Finish2(col_count * tile_size, row_count * tile_size)
+          finish2_group.add(finish2)  
 
         col_count += 1
       row_count += 1
@@ -57,21 +84,37 @@ class World():
 
 
 class Spike(pygame.sprite.Sprite):
-    def __init__(self, x, y):
-        pygame.sprite.Sprite.__init__(self)
-        img = pygame.image.load('Picture/spike.png')
-        self.image = pygame.transform.scale(img, (tile_size, tile_size))  # Scale the image
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
+  def __init__(self, x, y):
+    pygame.sprite.Sprite.__init__(self)
+    img = pygame.image.load('Picture/spike.png')
+    self.image = pygame.transform.scale(img, (tile_size, tile_size))
+    self.rect = self.image.get_rect()
+    self.rect.x = x
+    self.rect.y = y
 
+class Finish(pygame.sprite.Sprite):
+  def __init__(self, x, y):
+    pygame.sprite.Sprite.__init__(self)
+    img = pygame.image.load('Picture/portal.png')
+    self.image = pygame.transform.scale(img, (tile_size, int(tile_size * 2)))
+    self.rect = self.image.get_rect()
+    self.rect.x = x
+    self.rect.y = y
 
+class Finish2(pygame.sprite.Sprite):
+  def __init__(self, x, y):
+    pygame.sprite.Sprite.__init__(self)
+    img = pygame.image.load('Picture/portal2.png')
+    self.image = pygame.transform.scale(img, (tile_size, int(tile_size * 2)))
+    self.rect = self.image.get_rect()
+    self.rect.x = x
+    self.rect.y = y
 
 world_data = [
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 1],
 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 [1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 [1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -83,7 +126,7 @@ world_data = [
 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 1, 1, 1],
 [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 1],
 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
@@ -184,6 +227,10 @@ class Player_1():
       #contact met spike
       if pygame.sprite.spritecollide(self, spike_group, False):
         game_over = -1
+
+      #contact met portal
+      if pygame.sprite.spritecollide(self, finish_group, False):
+        game_over = 1
 
       #Player verplaatsen
       self.rect.x += dx
@@ -286,6 +333,10 @@ class Player_2():
       #contact met spike
       if pygame.sprite.spritecollide(self, spike_group, False):
         game_over = -1
+
+       #contact met portal
+      if pygame.sprite.spritecollide(self, finish2_group, False):
+        game_over = 1
 
       #Player verplaatsen
       self.rect.x += dx
