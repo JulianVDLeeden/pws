@@ -92,8 +92,7 @@ world = World(world_data)
 
 class Button():
   def __init__(self, x, y, image):
-    image = pygame.image.load('Picture/restart.png')
-    self.image = pygame.transform.scale(image, (tile_size * 7.5, tile_size * 2))
+    self.image = image
     self.rect = self.image.get_rect()
     self.rect.x = x
     self.rect.y = y
